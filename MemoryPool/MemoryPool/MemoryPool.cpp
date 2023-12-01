@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-#include <queue>
 
 using namespace std;
 
@@ -11,17 +10,18 @@ public:
 	{
 		mSz = byte;
 		mIndex = 0;
-		for (size_t i = 0; i < mSz; i++)
-		{
-			mPool.push_back(0);
-		}
+		mPool.resize(byte);
 	}
-	~MemoryPool()
+	virtual ~MemoryPool()
 	{
 	}
+	
 
 	char* allocate(int szof)
 	{
+		if (IsFull())
+			return nullptr;
+
 		char* result = &mPool[mIndex];
 		mIndex += szof;
 		return result;
@@ -30,35 +30,33 @@ public:
 	template <typename T>
 	void deallocate(T* data)
 	{
-		for (size_t i = 0; i < mSz; i++)
-		{
-			if (&mPool[i] == reinterpret_cast<char*>(data))
-			{
-				for (size_t j = 0; j < sizeof(data); j++)
-				{
-					*data = 0;
-				}
-				return;
-			}
-		}
+		*data = 0
 	}
 
-	void Resize(int num)
+	template <typename T>
+	void optimization()
 	{
-		int sz = num + mSz;
-		for (size_t i = mSz; i < sz; i++)
+		int increasedIndex = 0;
+		for (size_t i = 0; i < mIndex; i++)
 		{
-			mPool.push_back((char)i);
+			if (mPool[i] == '0')
+			{
+				auto temp = mPool[i];
+				mPool[i] = mPool[mIndex - sizeof(T)];
+				mPool[mIndex - sizeof(T)] = temp;
+				mIndex++;
+				increasedIndex++;
+			}
 		}
-		mSz += num;
+		mIndex -= increasedIndex * 2;
 	}
-	
+
 	bool IsFull()
 	{
-		if (mIndex < mSz)
-			return false;
-		else if (mIndex == mSz)
+		if (mIndex >= mSz)
 			return true;
+
+		return false;
 	}
 
 	char* GetPoolAddress()
@@ -126,6 +124,21 @@ public:
 		
 		mOPool.push_back(object);
 		return object;
+	}
+
+	template <typename T>
+	void DeleteObject(T* data)
+	{
+		int index = 0;
+		for (auto obj : mOPool)
+		{
+			if (obj == data)
+			{
+				mOPool.erase(mOPool.begin() + index);
+				mMp->deallocate(data);
+			}
+			index++;
+		}
 	}
 
 	void ObjActivating(int num)
@@ -202,17 +215,28 @@ private:
 
 int main()
 {
-	int sz1 = sizeof(Monster);
-	int sz2 = sizeof(Object);
+	//int sz1 = sizeof(Monster);
+	//int sz2 = sizeof(Object);
 
-	objectPool* monsterpool = new objectPool(3, sz1);
-	char* poolAdrs = monsterpool->GetMemoryPool()->GetPoolAddress();
+	//objectPool* monsterpool = new objectPool(3, sz1);
+	//char* poolAdrs = monsterpool->GetMemoryPool()->GetPoolAddress();
 
-	monsterpool->MakeObject<Monster>();
-	monsterpool->MakeObject<Monster>();
-	monsterpool->MakeObject<Monster>();
+	//Object* first = monsterpool->MakeObject<Monster>();
+	//Object* second = monsterpool->MakeObject<Monster>();
+	//Object* third = monsterpool->MakeObject<Monster>();
 
-	Monster* mob = monsterpool->GetObject<Monster>(0);
+	//Monster* mob = monsterpool->GetObject<Monster>(0);
+
+	//monsterpool->DeleteObject(second);
+	//monsterpool->GetMemoryPool()->optimization<Monster>();
+
+	int sz = sizeof(int);
+
+	objectPool* intpool = new objectPool(3, sz);
+	char* poolAdrs = intpool->GetMemoryPool()->GetPoolAddress();
+	
+	int first = intpool->MakeObject<int>();
+
 
 	return 0;
 }

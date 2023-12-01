@@ -13,6 +13,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Restaurant", "Restaurant\Re
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NamedMutex", "NamedMutex\NamedMutex.vcxproj", "{CDCCF7A0-8702-44FA-B473-12700EE23259}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MUTEX_WAIT_ABANDONED", "MUTEX_WAIT_ABANDONED\MUTEX_WAIT_ABANDONED.vcxproj", "{6CAC0812-AD08-41A4-91B9-403DF6982158}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -61,6 +63,14 @@ Global
 		{CDCCF7A0-8702-44FA-B473-12700EE23259}.Release|x64.Build.0 = Release|x64
 		{CDCCF7A0-8702-44FA-B473-12700EE23259}.Release|x86.ActiveCfg = Release|Win32
 		{CDCCF7A0-8702-44FA-B473-12700EE23259}.Release|x86.Build.0 = Release|Win32
+		{6CAC0812-AD08-41A4-91B9-403DF6982158}.Debug|x64.ActiveCfg = Debug|x64
+		{6CAC0812-AD08-41A4-91B9-403DF6982158}.Debug|x64.Build.0 = Debug|x64
+		{6CAC0812-AD08-41A4-91B9-403DF6982158}.Debug|x86.ActiveCfg = Debug|Win32
+		{6CAC0812-AD08-41A4-91B9-403DF6982158}.Debug|x86.Build.0 = Debug|Win32
+		{6CAC0812-AD08-41A4-91B9-403DF6982158}.Release|x64.ActiveCfg = Release|x64
+		{6CAC0812-AD08-41A4-91B9-403DF6982158}.Release|x64.Build.0 = Release|x64
+		{6CAC0812-AD08-41A4-91B9-403DF6982158}.Release|x86.ActiveCfg = Release|Win32
+		{6CAC0812-AD08-41A4-91B9-403DF6982158}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
